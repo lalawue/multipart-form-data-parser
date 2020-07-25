@@ -1,0 +1,92 @@
+--
+-- Copyright (c) 2020 lalawue
+--
+-- This library is free software; you can redistribute it and/or modify it
+-- under the terms of the MIT license. See LICENSE for details.
+--
+
+require("lib.utils")
+local Request = require("lib.multipart_formdata_parser")
+
+local arg_filename = ...
+if arg_filename == nil then
+    print("Usage: lua run_test.lua TEST_TABLE_LUA")
+    os.exit(0)
+end
+
+-- run test interface
+--
+
+local _M = {}
+_M.__index = {}
+
+function _M:readHeader(content)
+    local s, e = content:find("\r\n\r\n")
+    local substr = content:sub(1, s + 2)
+    local tbl = {}
+    for i, line in ipairs(substr:split("\r\n")) do
+        if i > 1 and line:len() > 0 then
+            local kv = line:split(": ")
+            tbl[kv[1]] = kv[2]
+        end
+    end
+    return tbl, content:sub(e + 1)
+end
+
+function _M:runTestCase(filepath, callback)
+    local content = io.readFile(filepath)
+    local header_tbl, body = self:readHeader(content)
+    local fd_tbl = {} -- context
+    local buf_size = 8192
+    if Request.isMultiPartFormData(fd_tbl, "POST", header_tbl) then
+        repeat
+            local len = math.min(buf_size, body:len())
+            local data = body:sub(1, len)
+            body = (body:len() > len) and body:sub(len + 1) or ""
+            Request.multiPartReadBody(fd_tbl, data, callback)
+        until body:len() <= 0
+    end
+end
+--
+
+--[[
+    test_case_tbl would be
+    {
+        [1] = {
+            case_name = "",
+            result = {
+                [1] = {
+                        name = "",
+                        content_type = ""
+                },
+                [2] = ...
+            },
+        },
+        [2] = ...
+    }
+]]
+function _M:runTestCaseFile(filename)
+    local tbl = dofile(filename)
+    for _, test_case in ipairs(tbl) do
+        local path = "testcase/" .. test_case.case_name
+        local result_tbl = test_case.result
+        local idx = 1
+        self:runTestCase(
+            path,
+            function(name, content_type, data)
+                if data ~= nil then
+                    return
+                end
+                local rtbl = result_tbl[idx]
+                if name == rtbl.name and content_type == rtbl.content_type then
+                    print(test_case.case_name .. "\t PASSED")
+                else
+                    print(test_case.case_name .. "\t FAILED !!!")
+                end
+                idx = idx + 1
+            end
+        )
+    end
+end
+
+_M:runTestCaseFile(arg_filename)
