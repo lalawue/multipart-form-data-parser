@@ -71,6 +71,8 @@ function _M:runTestCaseFile(filename)
         local path = "testcase/" .. test_case.case_name
         local result_tbl = test_case.result
         local idx = 1
+        local success_count = 0
+        local failed_count = 0
         self:runTestCase(
             path,
             function(name, content_type, data)
@@ -79,13 +81,23 @@ function _M:runTestCaseFile(filename)
                 end
                 local rtbl = result_tbl[idx]
                 if name == rtbl.name and content_type == rtbl.content_type then
-                    print(test_case.case_name .. "\t PASSED")
+                    success_count = success_count + 1
                 else
-                    print(test_case.case_name .. "\t FAILED !!!")
+                    failed_count = failed_count + 1
                 end
                 idx = idx + 1
             end
         )
+        io.write(string.format("(s:%d f:%d)  ", success_count, failed_count))
+        if success_count + failed_count == #result_tbl then
+            if failed_count > 0 then
+                print(test_case.case_name .. "\t FAILED !!!")
+            else
+                print(test_case.case_name .. "\t PASSED")
+            end
+        else
+            print(test_case.case_name .. "\t PASSED")
+        end
     end
 end
 

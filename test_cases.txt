@@ -38,6 +38,16 @@ local tbl = {
                 content_type = "text/plain"
             }
         }
+    },
+    {
+        case_name = "test_case_20.txt",
+        result = {
+        }
+    },
+    {
+        case_name = "test_case_22.txt",
+        result = {
+        }
     }
 }
 
