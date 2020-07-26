@@ -18,8 +18,11 @@ supported_platforms = {
 build = {
    type = "builtin",
    modules = {
-      multipart-formdata-parser = {
-         "lib/multipart-formdata-parser.lua"
-      }
-   }
+      ["lib.multipart-formdata-parser"] = "lib/multipart-formdata-parser.lua",
+      ["lib.utils"] = "lib/utils.lua",       
+      ["run_test"] = "run_test.lua",
+   },
+   copy_directories = {
+       "testcase"
+   } ,   
 }

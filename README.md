@@ -13,5 +13,5 @@ HTTP multipart/form-data with callback style API, test case covered:
 run the test
 
 ```sh
-$ lua run_test.lua test_cases.txt
+$ lua run_test.lua testcase/test_cases.txt
 ```

@@ -6,7 +6,7 @@
 --
 
 require("lib.utils")
-local Request = require("lib.multipart_formdata_parser")
+local Request = require("lib.multipart-formdata-parser")
 
 local arg_filename = ...
 if arg_filename == nil then
