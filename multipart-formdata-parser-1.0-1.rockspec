@@ -1,8 +1,8 @@
 package = "multipart-formdata-parser"
-version = "1.0-1"
+version = "1.0-2"
 source = {
    url = "git+https://github.com/lalawue/multipart-formdata-parser",
-   tag = "v1.0.1",   
+   tag = "v1.0.2",   
 }
 description = {
    summary = "HTTP multipart/form-data parser",
