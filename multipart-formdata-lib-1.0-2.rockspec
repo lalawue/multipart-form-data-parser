@@ -1,13 +1,13 @@
-package = "multipart-formdata-parser"
+package = "multipart-formdata-lib"
 version = "1.0-2"
 source = {
-   url = "git+https://github.com/lalawue/multipart-formdata-parser",
+   url = "git+https://github.com/lalawue/multipart-formdata-lib",
    tag = "v1.0.2",   
 }
 description = {
-   summary = "HTTP multipart/form-data parser",
-   detailed = "HTTP multipart/form-data parser for Lua, with callback style API",
-   homepage = "https://github.com/lalawue/multipart-formdata-parser",
+   summary = "HTTP multipart/form-data parser/builder",
+   detailed = "HTTP multipart/form-data parser/builder for Lua, with callback style API",
+   homepage = "https://github.com/lalawue/multipart-formdata-lib",
    license = "MIT"
 }
 dependencies = {
