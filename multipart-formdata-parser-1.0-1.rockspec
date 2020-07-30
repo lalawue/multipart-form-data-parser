@@ -20,6 +20,7 @@ build = {
    type = "builtin",
    modules = {
       ["lib.multipart-formdata-parser"] = "lib/multipart-formdata-parser.lua",
+      ["lib.multipart-formdata-builder"] = "lib/multipart-formdata-builder.lua",
       ["lib.utils"] = "lib/utils.lua",       
       ["run_test"] = "run_test.lua",
    },
